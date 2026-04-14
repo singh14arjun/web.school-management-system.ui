@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
-import { MdFilterList, MdPersonAdd } from "react-icons/md";
+import { MdDelete, MdFilterList, MdPersonAdd } from "react-icons/md";
+import { TextField, MenuItem, InputAdornment } from "@mui/material";
+
 import { FaEye } from "react-icons/fa";
 import { staff, staffRoles, departments } from "../../data/staff";
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { BiEdit } from "react-icons/bi";
+import DataNotFound from "../DataNotFound";
 const RoleBadge = ({ role }) => {
   const colors = {
     Principal: "bg-violet-50 text-violet-600 border-violet-200",
@@ -75,115 +87,195 @@ const StaffList = () => {
 
       {/* Filter + Table */}
       <div className="bg-white rounded-xl border border-slate-100 shadow-sm animate-slide-up delay-4">
+
         <div className="flex items-center gap-3 p-4 border-b border-slate-100">
-          <div className="relative flex-1">
-            <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
+
+          {/* Search */}
+          <div className="flex-1">
+            <TextField
+              fullWidth
+              size="small"
               placeholder="Search by name or employee ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+              variant="outlined"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IoSearch className="text-slate-400" />
+                  </InputAdornment>
+                ),
+              }}
             />
           </div>
-          <div className="relative">
-            <MdFilterList className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="pl-9 pr-8 py-2 text-sm border border-slate-200 rounded-lg appearance-none focus:outline-none focus:border-blue-400 bg-white cursor-pointer"
-            >
-              <option value="All">All Roles</option>
-              {staffRoles.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-          </div>
-          <select
+
+          {/* Role Filter */}
+          <TextField
+            select
+            size="small"
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MdFilterList className="text-slate-400" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ minWidth: 150 }}
+          >
+            <MenuItem value="All">All Roles</MenuItem>
+            {staffRoles.map((r) => (
+              <MenuItem key={r} value={r}>
+                {r}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          {/* Department Filter */}
+          <TextField
+            select
+            size="small"
             value={deptFilter}
             onChange={(e) => setDeptFilter(e.target.value)}
-            className="px-4 py-2 text-sm border border-slate-200 rounded-lg appearance-none focus:outline-none focus:border-blue-400 bg-white cursor-pointer"
+            sx={{ minWidth: 170 }}
           >
-            <option value="All">All Departments</option>
+            <MenuItem value="All">All Departments</MenuItem>
             {departments.map((d) => (
-              <option key={d} value={d}>{d}</option>
+              <MenuItem key={d} value={d}>
+                {d}
+              </MenuItem>
             ))}
-          </select>
+          </TextField>
+
         </div>
 
-        {/* Table */}
+
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/80">
-                <th className="px-5 py-3">Employee</th>
-                <th className="px-5 py-3">ID</th>
-                <th className="px-5 py-3">Role</th>
-                <th className="px-5 py-3">Department</th>
-                <th className="px-5 py-3">Contact</th>
-                <th className="px-5 py-3">Attendance</th>
-                <th className="px-5 py-3">Salary</th>
-                <th className="px-5 py-3">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {filtered.map((member) => {
-                const att = member.attendance;
-                const attPercent = ((att.present / att.totalDays) * 100).toFixed(0);
-                return (
-                  <tr key={member.id} className="hover:bg-blue-50/30 transition-colors">
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                          {member.personalInfo.fullName.split(" ").map((n) => n[0]).slice(0, 2).join("")}
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-slate-800">{member.personalInfo.fullName}</p>
-                          <p className="text-xs text-slate-400">{member.professionalInfo.designation}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3 text-sm font-mono text-violet-600">{member.id}</td>
-                    <td className="px-5 py-3"><RoleBadge role={member.role} /></td>
-                    <td className="px-5 py-3 text-sm text-slate-600">{member.professionalInfo.department}</td>
-                    <td className="px-5 py-3">
-                      <p className="text-sm text-slate-700">{member.personalInfo.phone}</p>
-                      <p className="text-xs text-slate-400">{member.personalInfo.email}</p>
-                    </td>
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-12 bg-slate-100 rounded-full h-1.5">
-                          <div
-                            className={`h-1.5 rounded-full transition-all duration-500 ${attPercent >= 90 ? "bg-emerald-500" : attPercent >= 75 ? "bg-amber-500" : "bg-red-500"}`}
-                            style={{ width: `${attPercent}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-xs font-semibold text-slate-600">{attPercent}%</span>
-                      </div>
-                      <p className="text-xs text-slate-400 mt-0.5">{att.present}P / {att.absent}A / {att.late}L</p>
-                    </td>
-                    <td className="px-5 py-3 text-sm font-semibold text-slate-700">
-                      Rs.{member.salary.total.toLocaleString()}
-                    </td>
-                    <td className="px-5 py-3">
-                      <Link
-                        to={`/staff/${member.id}`}
-                        className="flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 px-3 py-1.5 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200"
-                      >
-                        <FaEye /> View
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          {filtered.length === 0 && (
-            <p className="text-center text-slate-400 py-8">No staff members found.</p>
-          )}
+          <div className="max-h-[400px] overflow-y-auto scrollbar-hide">
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow className="bg-slate-50/80">
+                    <TableCell className="text-xs font-semibold uppercase">Employee</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">ID</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Role</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Department</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Contact</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Attendance</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Salary</TableCell>
+                    <TableCell className="text-xs font-semibold uppercase">Action</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {filtered.map((member) => {
+                    const att = member.attendance;
+                    const attPercent = ((att.present / att.totalDays) * 100).toFixed(0);
+
+                    return (
+                      <TableRow key={member.id} hover>
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-white font-bold text-sm">
+                              {member.personalInfo.fullName
+                                .split(" ")
+                                .map((n) => n[0])
+                                .slice(0, 2)
+                                .join("")}
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-slate-800">
+                                {member.personalInfo.fullName}
+                              </p>
+                              <p className="text-xs text-slate-400">
+                                {member.professionalInfo.designation}
+                              </p>
+                            </div>
+                          </div>
+                        </TableCell>
+
+                        <TableCell className="text-sm font-mono text-violet-600">
+                          {member.id}
+                        </TableCell>
+
+                        <TableCell>
+                          <RoleBadge role={member.role} />
+                        </TableCell>
+
+                        <TableCell className="text-sm text-slate-600">
+                          {member.professionalInfo.department}
+                        </TableCell>
+                        <TableCell>
+                          <p className="text-sm text-slate-700">
+                            {member.personalInfo.phone}
+                          </p>
+                          <p className="text-xs text-slate-400">
+                            {member.personalInfo.email}
+                          </p>
+                        </TableCell>
+
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <div className="w-12 bg-slate-100 rounded-full h-1.5">
+                              <div
+                                className={`h-1.5 rounded-full ${attPercent >= 90
+                                  ? "bg-emerald-500"
+                                  : attPercent >= 75
+                                    ? "bg-amber-500"
+                                    : "bg-red-500"
+                                  }`}
+                                style={{ width: `${attPercent}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs font-semibold text-slate-600">
+                              {attPercent}%
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-400 mt-0.5">
+                            {att.present}P / {att.absent}A / {att.late}L
+                          </p>
+                        </TableCell>
+
+                        <TableCell className="text-sm font-semibold text-slate-700">
+                          Rs.{member.salary.total.toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Link
+                              to={`/staff/${member?.id}`}
+                              className="flex items-center gap-1 text-xs font-semibold text-blue-600 bg-blue-100 px-2 py-2 rounded hover:text-blue-800 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                            >
+                              <FaEye />
+                            </Link>
+                            <Link
+                              to={`/staff/edit/${member?.id}`}
+                              className="flex items-center gap-1 text-xs font-semibold text-yellow-600 bg-yellow-100 px-2 py-2 rounded hover:text-yellow-800 hover:bg-yellow-200 transition-all duration-200 cursor-pointer"
+                            >
+                              <BiEdit />
+                            </Link>
+                            <Link
+                              to={`/staff/delete/${member?.id}`}
+                              className="flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 px-2 py-2 rounded hover:text-red-800 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                            >
+                              <MdDelete />
+                            </Link>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {filtered.length === 0 && (
+              <DataNotFound />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

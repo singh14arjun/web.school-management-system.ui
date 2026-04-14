@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MdArrowBack, MdCheckCircle, MdSchool, MdLocalHospital, MdDescription, MdFamilyRestroom } from "react-icons/md";
+import { MdArrowBack, MdCheckCircle, MdSchool, MdLocalHospital, MdDescription, MdFamilyRestroom, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import { FaUserGraduate } from "react-icons/fa";
 import { IoCall, IoMail } from "react-icons/io5";
+import { HiCurrencyRupee } from "react-icons/hi2";
 import { students } from "../../data/students";
 
 const TabButton = ({ active, label, onClick }) => (
@@ -99,6 +100,9 @@ const StudentProfile = () => {
         <TabButton active={activeTab === "guardian"} label="Guardian" onClick={() => setActiveTab("guardian")} />
         <TabButton active={activeTab === "health"} label="Health" onClick={() => setActiveTab("health")} />
         <TabButton active={activeTab === "documents"} label="Documents" onClick={() => setActiveTab("documents")} />
+        <TabButton active={activeTab === "attendance"} label="Attendance" onClick={() => setActiveTab("attendance")} />
+        <TabButton active={activeTab === "fees"} label="Fee History" onClick={() => setActiveTab("fees")} />
+        <TabButton active={activeTab === "exams"} label="Exam Results" onClick={() => setActiveTab("exams")} />
         {siblingData.length > 0 && (
           <TabButton active={activeTab === "siblings"} label="Siblings" onClick={() => setActiveTab("siblings")} />
         )}
@@ -217,6 +221,190 @@ const StudentProfile = () => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {activeTab === "attendance" && (
+          <div className="animate-fade-in">
+            <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <MdCheckCircle className="text-blue-500" /> Attendance Record
+            </h3>
+            <div className="grid grid-cols-4 gap-4 mb-6">
+              <div className="text-center p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                <p className="text-2xl font-bold text-emerald-600">{student.attendancePercent}%</p>
+                <p className="text-xs text-slate-500 mt-1">Overall</p>
+              </div>
+              <div className="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                <p className="text-2xl font-bold text-blue-600">{Math.round(220 * student.attendancePercent / 100)}</p>
+                <p className="text-xs text-slate-500 mt-1">Days Present</p>
+              </div>
+              <div className="text-center p-4 bg-red-50 rounded-xl border border-red-100">
+                <p className="text-2xl font-bold text-red-600">{220 - Math.round(220 * student.attendancePercent / 100)}</p>
+                <p className="text-xs text-slate-500 mt-1">Days Absent</p>
+              </div>
+              <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <p className="text-2xl font-bold text-slate-600">220</p>
+                <p className="text-xs text-slate-500 mt-1">Total Working Days</p>
+              </div>
+            </div>
+            <h4 className="text-sm font-semibold text-slate-600 mb-3">Monthly Breakdown</h4>
+            <div className="space-y-2">
+              {[
+                { month: "Apr", present: 22, total: 24 }, { month: "May", present: 20, total: 23 },
+                { month: "Jun", present: 18, total: 20 }, { month: "Jul", present: 21, total: 24 },
+                { month: "Aug", present: 23, total: 25 }, { month: "Sep", present: 19, total: 22 },
+                { month: "Oct", present: 20, total: 22 }, { month: "Nov", present: 21, total: 23 },
+                { month: "Dec", present: 17, total: 19 }, { month: "Jan", present: 22, total: 24 },
+                { month: "Feb", present: 18, total: 20 },
+              ].map((m) => (
+                <div key={m.month} className="flex items-center gap-3 group">
+                  <span className="text-xs text-slate-500 w-8 font-medium">{m.month}</span>
+                  <div className="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${(m.present / m.total) * 100 >= 90 ? "bg-emerald-500" : (m.present / m.total) * 100 >= 75 ? "bg-amber-500" : "bg-red-500"}`}
+                      style={{ width: `${(m.present / m.total) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-600 w-16 text-right">{m.present}/{m.total} ({Math.round((m.present / m.total) * 100)}%)</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "fees" && (
+          <div className="animate-fade-in">
+            <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <HiCurrencyRupee className="text-blue-500" /> Fee History
+            </h3>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                <p className="text-xl font-bold text-emerald-600">Rs.48,000</p>
+                <p className="text-xs text-slate-500 mt-1">Total Paid</p>
+              </div>
+              <div className={`text-center p-4 rounded-xl border ${student.feeStatus === "Clear" ? "bg-emerald-50 border-emerald-100" : student.feeStatus === "Due" ? "bg-amber-50 border-amber-100" : "bg-red-50 border-red-100"}`}>
+                <p className={`text-xl font-bold ${student.feeStatus === "Clear" ? "text-emerald-600" : student.feeStatus === "Due" ? "text-amber-600" : "text-red-600"}`}>
+                  {student.feeStatus === "Clear" ? "Rs.0" : student.feeStatus === "Due" ? "Rs.12,000" : "Rs.24,000"}
+                </p>
+                <p className="text-xs text-slate-500 mt-1">Outstanding</p>
+              </div>
+              <div className="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                <p className="text-xl font-bold text-blue-600">Rs.60,000</p>
+                <p className="text-xs text-slate-500 mt-1">Annual Fee</p>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/80">
+                    <th className="px-4 py-2.5">Receipt #</th>
+                    <th className="px-4 py-2.5">Date</th>
+                    <th className="px-4 py-2.5">Type</th>
+                    <th className="px-4 py-2.5">Amount</th>
+                    <th className="px-4 py-2.5">Mode</th>
+                    <th className="px-4 py-2.5">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {[
+                    { id: "RCP-001", date: "2025-04-10", type: "Tuition Fee", amount: 12000, mode: "Online", status: "Paid" },
+                    { id: "RCP-002", date: "2025-07-05", type: "Tuition Fee", amount: 12000, mode: "Cash", status: "Paid" },
+                    { id: "RCP-003", date: "2025-08-15", type: "Exam Fee", amount: 2000, mode: "Online", status: "Paid" },
+                    { id: "RCP-004", date: "2025-10-01", type: "Tuition Fee", amount: 12000, mode: "Cheque", status: "Paid" },
+                    { id: "RCP-005", date: "2026-01-10", type: "Tuition Fee", amount: 12000, mode: "Online", status: student.feeStatus === "Clear" ? "Paid" : "Pending" },
+                  ].map((fee) => (
+                    <tr key={fee.id} className="hover:bg-blue-50/30 transition-colors">
+                      <td className="px-4 py-2.5 text-sm font-mono text-blue-600">{fee.id}</td>
+                      <td className="px-4 py-2.5 text-sm text-slate-600">{new Date(fee.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</td>
+                      <td className="px-4 py-2.5 text-sm text-slate-700 font-medium">{fee.type}</td>
+                      <td className="px-4 py-2.5 text-sm font-semibold text-slate-800">Rs.{fee.amount.toLocaleString()}</td>
+                      <td className="px-4 py-2.5 text-sm text-slate-600">{fee.mode}</td>
+                      <td className="px-4 py-2.5">
+                        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${fee.status === "Paid" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"}`}>
+                          {fee.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "exams" && (
+          <div className="animate-fade-in">
+            <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <MdSchool className="text-blue-500" /> Exam Results
+            </h3>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                <p className="text-2xl font-bold text-blue-600">82.4%</p>
+                <p className="text-xs text-slate-500 mt-1">Overall Average</p>
+              </div>
+              <div className="text-center p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                <p className="text-2xl font-bold text-emerald-600">A</p>
+                <p className="text-xs text-slate-500 mt-1">Grade</p>
+              </div>
+              <div className="text-center p-4 bg-violet-50 rounded-xl border border-violet-100">
+                <p className="text-2xl font-bold text-violet-600">5th</p>
+                <p className="text-xs text-slate-500 mt-1">Class Rank</p>
+              </div>
+            </div>
+
+            {/* Exam-wise results */}
+            {[
+              {
+                exam: "Mid-Term (Oct 2025)", subjects: [
+                  { name: "Mathematics", marks: 85, total: 100 }, { name: "Science", marks: 78, total: 100 },
+                  { name: "English", marks: 88, total: 100 }, { name: "Hindi", marks: 72, total: 100 },
+                  { name: "Social Studies", marks: 80, total: 100 }, { name: "Computer", marks: 92, total: 100 },
+                ],
+              },
+              {
+                exam: "Unit Test 1 (Jul 2025)", subjects: [
+                  { name: "Mathematics", marks: 42, total: 50 }, { name: "Science", marks: 38, total: 50 },
+                  { name: "English", marks: 45, total: 50 }, { name: "Hindi", marks: 35, total: 50 },
+                  { name: "Social Studies", marks: 40, total: 50 }, { name: "Computer", marks: 48, total: 50 },
+                ],
+              },
+            ].map((exam) => {
+              const totalMarks = exam.subjects.reduce((a, s) => a + s.marks, 0);
+              const totalMax = exam.subjects.reduce((a, s) => a + s.total, 0);
+              const percent = ((totalMarks / totalMax) * 100).toFixed(1);
+              return (
+                <div key={exam.exam} className="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="text-sm font-bold text-slate-700">{exam.exam}</h4>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-blue-600">{totalMarks}/{totalMax}</span>
+                      <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${parseFloat(percent) >= 80 ? "bg-emerald-100 text-emerald-700" : parseFloat(percent) >= 60 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
+                        {percent}%
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {exam.subjects.map((sub) => {
+                      const pct = (sub.marks / sub.total) * 100;
+                      return (
+                        <div key={sub.name} className="flex items-center justify-between p-2.5 bg-white rounded-lg border border-slate-100">
+                          <div>
+                            <p className="text-xs text-slate-500">{sub.name}</p>
+                            <p className="text-sm font-bold text-slate-800">{sub.marks}/{sub.total}</p>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            {pct >= 80 ? <MdTrendingUp className="text-emerald-500 text-sm" /> : pct >= 60 ? null : <MdTrendingDown className="text-red-500 text-sm" />}
+                            <span className={`text-xs font-bold ${pct >= 80 ? "text-emerald-600" : pct >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                              {pct.toFixed(0)}%
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 

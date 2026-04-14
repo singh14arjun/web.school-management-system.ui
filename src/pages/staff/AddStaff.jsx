@@ -33,7 +33,7 @@ const validationSchemas = [
   Yup.object({}),
 ];
 
-const AddStaff = () => {
+const AddStaff = ({ initialData, isEdit }) => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -45,8 +45,8 @@ const AddStaff = () => {
           <MdArrowBack className="text-xl text-slate-600" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Add New Staff</h1>
-          <p className="text-sm text-slate-500">Create a new staff account with role assignment</p>
+          <h1 className="text-2xl font-bold text-slate-800">{isEdit ? "Edit Staff" : "Add New Staff"}</h1>
+          <p className="text-sm text-slate-500">{isEdit ? "Update existing staff details" : "Create a new staff account with role assignment"}</p>
         </div>
       </div>
 
@@ -63,11 +63,26 @@ const AddStaff = () => {
       <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
         <Formik
           initialValues={{
-            fullName: "", dob: "", gender: "", bloodGroup: "", phone: "", email: "", address: "",
-            designation: "", department: "", role: "", qualification: "", experience: "",
-            specialization: "", joiningDate: "",
-            basicSalary: "", hra: "", da: "",
-            bankName: "", accountNo: "", ifsc: "",
+            fullName: initialData?.personalInfo?.fullName || "",
+            dob: initialData?.personalInfo?.dob || "",
+            gender: initialData?.personalInfo?.gender || "",
+            bloodGroup: initialData?.personalInfo?.bloodGroup || "",
+            phone: initialData?.personalInfo?.phone || "",
+            email: initialData?.personalInfo?.email || "",
+            address: initialData?.personalInfo?.address || "",
+            designation: initialData?.professionalInfo?.designation || "",
+            department: initialData?.professionalInfo?.department || "",
+            role: initialData?.role || "",
+            qualification: initialData?.professionalInfo?.qualification || "",
+            experience: initialData?.professionalInfo?.experience || "",
+            specialization: initialData?.professionalInfo?.specialization || "",
+            joiningDate: initialData?.professionalInfo?.joiningDate || "",
+            basicSalary: initialData?.salary?.basic || "",
+            hra: initialData?.salary?.hra || "",
+            da: initialData?.salary?.da || "",
+            bankName: initialData?.bankDetails?.bankName || "",
+            accountNo: initialData?.bankDetails?.accountNo || "",
+            ifsc: initialData?.bankDetails?.ifsc || "",
           }}
           validationSchema={validationSchemas[activeStep]}
           onSubmit={(values, { setSubmitting }) => {
@@ -76,8 +91,8 @@ const AddStaff = () => {
               setSubmitting(false);
             } else {
               setTimeout(() => {
-                console.log("Staff created:", values);
-                toast.success("Staff member added successfully!");
+                console.log(isEdit ? "Staff updated:" : "Staff created:", values);
+                toast.success(isEdit ? "Staff member updated successfully!" : "Staff member added successfully!");
                 setSubmitting(false);
                 navigate("/staff");
               }, 500);
@@ -259,7 +274,7 @@ const AddStaff = () => {
                 ) : (
                   <Button type="submit" variant="contained" disabled={isSubmitting}
                     sx={{ bgcolor: "#16a34a", "&:hover": { bgcolor: "#15803d" } }}>
-                    {isSubmitting ? "Creating..." : "Create Staff Account"}
+                    {isSubmitting ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update Staff Account" : "Create Staff Account")}
                   </Button>
                 )}
               </div>

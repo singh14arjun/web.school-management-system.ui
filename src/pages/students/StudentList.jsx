@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
-import { MdFilterList, MdPersonAdd } from "react-icons/md";
+import { MdFilterList, MdPersonAdd, MdEdit, MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { students } from "../../data/students";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import NoDataFound from "../NoDataFound";
+import { toast } from "react-toastify";
 
 const StatusBadge = ({ status }) => {
   const colors = {
@@ -29,29 +28,80 @@ const FeeBadge = ({ status }) => {
   };
   return (
     <span className={`px-2 py-0.5 text-xs font-semibold rounded ${colors[status] || "text-slate-600 bg-slate-50"}`}>
-      {status}
+      {status === "Clear" ? "No Dues" : status}
     </span>
   );
 };
 
+const DeleteModal = ({ student, onConfirm, onCancel }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in">
+    <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md mx-4 animate-slide-up">
+      <div className="flex items-center justify-center w-14 h-14 bg-red-100 rounded-full mx-auto mb-4">
+        <MdDelete className="text-3xl text-red-500" />
+      </div>
+      <h3 className="text-lg font-bold text-slate-800 text-center">Delete Student?</h3>
+      <p className="text-sm text-slate-500 text-center mt-2">
+        Are you sure you want to delete <span className="font-semibold text-slate-700">{student.personalInfo.fullName}</span> ({student.id})?
+        This action cannot be undone.
+      </p>
+      <div className="flex gap-3 mt-6">
+        <button
+          onClick={onCancel}
+          className="flex-1 px-4 py-2.5 text-sm font-semibold text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={onConfirm}
+          className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/25 transition-all cursor-pointer"
+        >
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 const StudentList = () => {
   const [search, setSearch] = useState("");
   const [classFilter, setClassFilter] = useState("All");
+  const [sectionFilter, setSectionFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const allClasses = [...new Set(students.map((s) => s.academicInfo.currentClass))].sort();
+  const allSections = [...new Set(students.map((s) => s.academicInfo.section))].sort();
 
   const filtered = students.filter((s) => {
     const matchSearch =
       s.personalInfo.fullName.toLowerCase().includes(search.toLowerCase()) ||
       s.id.toLowerCase().includes(search.toLowerCase());
     const matchClass = classFilter === "All" || s.academicInfo.currentClass === classFilter;
+    const matchSection = sectionFilter === "All" || s.academicInfo.section === sectionFilter;
     const matchStatus = statusFilter === "All" || s.status === statusFilter;
-    return matchSearch && matchClass && matchStatus;
+    return matchSearch && matchClass && matchSection && matchStatus;
   });
+
+  const handleDelete = (student) => {
+    setDeleteTarget(student);
+  };
+
+  const confirmDelete = () => {
+    toast.success(`${deleteTarget.personalInfo.fullName} has been deleted`);
+    setDeleteTarget(null);
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <DeleteModal
+          student={deleteTarget}
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
+      )}
+
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -59,11 +109,11 @@ const StudentList = () => {
           <p className="text-sm text-slate-500">{students.length} total students across all classes</p>
         </div>
         <Link
-          to="/enrollment/new-inquiry"
+          to="/students/add"
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
         >
           <MdPersonAdd className="text-xl" />
-          New Admission
+          Add Student
         </Link>
       </div>
 
@@ -116,6 +166,16 @@ const StudentList = () => {
             </select>
           </div>
           <select
+            value={sectionFilter}
+            onChange={(e) => setSectionFilter(e.target.value)}
+            className="px-4 py-2 text-sm border border-slate-200 rounded-lg appearance-none focus:outline-none focus:border-blue-400 bg-white cursor-pointer"
+          >
+            <option value="All">All Sections</option>
+            {allSections.map((sec) => (
+              <option key={sec} value={sec}>{sec}</option>
+            ))}
+          </select>
+          <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 text-sm border border-slate-200 rounded-lg appearance-none focus:outline-none focus:border-blue-400 bg-white cursor-pointer"
@@ -130,23 +190,23 @@ const StudentList = () => {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <Table className="w-full">
-            <TableHead>
-              <TableRow className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/80">
-                <TableCell className="px-5 py-3">Student</TableCell>
-                <TableCell className="px-5 py-3">ID</TableCell>
-                <TableCell className="px-5 py-3">Class</TableCell>
-                <TableCell className="px-5 py-3">Guardian</TableCell>
-                <TableCell className="px-5 py-3">Attendance</TableCell>
-                <TableCell className="px-5 py-3">Fee</TableCell>
-                <TableCell className="px-5 py-3">Status</TableCell>
-                <TableCell className="px-5 py-3">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody className="divide-y divide-slate-50">
+          <table className="w-full">
+            <thead>
+              <tr className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/80">
+                <th className="px-5 py-3">Student</th>
+                <th className="px-5 py-3">ID</th>
+                <th className="px-5 py-3">Class</th>
+                <th className="px-5 py-3">Guardian</th>
+                <th className="px-5 py-3">Attendance</th>
+                <th className="px-5 py-3">Fee</th>
+                <th className="px-5 py-3">Status</th>
+                <th className="px-5 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
               {filtered.map((student) => (
-                <TableRow key={student.id} className="hover:bg-blue-50/30 transition-colors">
-                  <TableCell className="px-5 py-3">
+                <tr key={student.id} className="hover:bg-blue-50/30 transition-colors">
+                  <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
                         {student.personalInfo.fullName.split(" ").map((n) => n[0]).join("")}
@@ -156,17 +216,17 @@ const StudentList = () => {
                         <p className="text-xs text-slate-400">{student.personalInfo.gender} &bull; {student.personalInfo.bloodGroup}</p>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell className="px-5 py-3 text-sm font-mono text-blue-600">{student.id}</TableCell>
-                  <TableCell className="px-5 py-3">
+                  </td>
+                  <td className="px-5 py-3 text-sm font-mono text-blue-600">{student.id}</td>
+                  <td className="px-5 py-3">
                     <p className="text-sm font-medium text-slate-700">{student.academicInfo.currentClass}-{student.academicInfo.section}</p>
                     <p className="text-xs text-slate-400">Roll #{student.academicInfo.rollNumber}</p>
-                  </TableCell>
-                  <TableCell className="px-5 py-3">
+                  </td>
+                  <td className="px-5 py-3">
                     <p className="text-sm text-slate-700">{student.guardianInfo.father.name}</p>
                     <p className="text-xs text-slate-400">{student.guardianInfo.father.mobile}</p>
-                  </TableCell>
-                  <TableCell className="px-5 py-3">
+                  </td>
+                  <td className="px-5 py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-12 bg-slate-100 rounded-full h-1.5">
                         <div
@@ -176,23 +236,37 @@ const StudentList = () => {
                       </div>
                       <span className="text-xs font-semibold text-slate-600">{student.attendancePercent}%</span>
                     </div>
-                  </TableCell>
-                  <TableCell className="px-5 py-3"><FeeBadge status={student.feeStatus} /></TableCell>
-                  <TableCell className="px-5 py-3"><StatusBadge status={student.status} /></TableCell>
-                  <TableCell className="px-5 py-3">
-                    <Link
-                      to={`/students/${student.id}`}
-                      className="flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 px-3 py-1.5 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200"
-                    >
-                      <FaEye /> View
-                    </Link>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                  <td className="px-5 py-3"><FeeBadge status={student.feeStatus} /></td>
+                  <td className="px-5 py-3"><StatusBadge status={student.status} /></td>
+                  <td className="px-5 py-3">
+                    <div className="flex items-center gap-1.5">
+                      <Link
+                        to={`/students/${student.id}`}
+                        className="flex items-center gap-1 text-xs font-semibold text-blue-600 bg-blue-100 px-2 py-2 rounded hover:text-blue-800 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                      >
+                        <FaEye />
+                      </Link>
+                      <Link
+                        to={`/students/edit/${student.id}`}
+                        className="flex items-center gap-1 text-xs font-semibold text-amber-600 bg-amber-100 px-2 py-2 rounded hover:text-amber-800 hover:bg-amber-200 transition-all duration-200 cursor-pointer"
+                      >
+                        <MdEdit />
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(student)}
+                        className="flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 px-2 py-2 rounded hover:text-red-800 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                      >
+                        <MdDelete />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
           {filtered.length === 0 && (
-            <NoDataFound />
+            <p className="text-center text-slate-400 py-8">No students found.</p>
           )}
         </div>
       </div>
