@@ -76,7 +76,7 @@ const DeleteStaff = lazy(() => import("../pages/staff/DeleteStaff"));
 const Salary = lazy(() => import("../pages/staff/Salary"));
 const TeacherProfile = lazy(() => import("../pages/staff/TeacherProfile"));
 const Assignment = lazy(() => import("../pages/staff/Assignement"));
-const Timetable = lazy(() => import("../pages/staff/Timetable"));
+const Timetable = lazy(() => import("../pages/staff/TimeTable"));
 const Result = lazy(() => import("../pages/staff/Result"));
 const Attendance = lazy(() => import("../pages/staff/Attendance"));
 
