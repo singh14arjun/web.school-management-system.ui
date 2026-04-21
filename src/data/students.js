@@ -18,8 +18,18 @@ export const students = [
       permanentAddress: "45 MG Road, Civil Lines, Delhi 110001",
     },
     guardianInfo: {
-      father: { name: "Rajesh Sharma", occupation: "Engineer", mobile: "9876543210", email: "rajesh.sharma@gmail.com" },
-      mother: { name: "Priya Sharma", occupation: "Teacher", mobile: "9876543211", email: "priya.sharma@gmail.com" },
+      father: {
+        name: "Rajesh Sharma",
+        occupation: "Engineer",
+        mobile: "9876543210",
+        email: "rajesh.sharma@gmail.com",
+      },
+      mother: {
+        name: "Priya Sharma",
+        occupation: "Teacher",
+        mobile: "9876543211",
+        email: "priya.sharma@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -39,10 +49,19 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2019-03-15", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2019-03-15",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2019-03-15", status: "Verified" },
-      { name: "Previous Marksheet", uploadDate: "2019-03-15", status: "Verified" },
+      {
+        name: "Previous Marksheet",
+        uploadDate: "2019-03-15",
+        status: "Verified",
+      },
     ],
+    role: "student",
     status: "Active",
     enrollmentDate: "2019-04-01",
     schoolId: "1001",
@@ -68,8 +87,18 @@ export const students = [
       permanentAddress: "12 Lajpat Nagar, New Delhi 110024",
     },
     guardianInfo: {
-      father: { name: "Vikram Singh", occupation: "Businessman", mobile: "9123456789", email: "vikram.singh@gmail.com" },
-      mother: { name: "Meera Singh", occupation: "Doctor", mobile: "9123456790", email: "meera.singh@gmail.com" },
+      father: {
+        name: "Vikram Singh",
+        occupation: "Businessman",
+        mobile: "9123456789",
+        email: "vikram.singh@gmail.com",
+      },
+      mother: {
+        name: "Meera Singh",
+        occupation: "Doctor",
+        mobile: "9123456790",
+        email: "meera.singh@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -89,8 +118,16 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles", "Hepatitis B"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2023-03-10", status: "Verified" },
-      { name: "Transfer Certificate", uploadDate: "2023-03-10", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2023-03-10",
+        status: "Verified",
+      },
+      {
+        name: "Transfer Certificate",
+        uploadDate: "2023-03-10",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2023-03-10", status: "Verified" },
     ],
     status: "Active",
@@ -118,8 +155,18 @@ export const students = [
       permanentAddress: "78 Kanpur Road, Lucknow 226001",
     },
     guardianInfo: {
-      father: { name: "Suresh Verma", occupation: "Shopkeeper", mobile: "8000000001", email: "suresh.v@gmail.com" },
-      mother: { name: "Sunita Verma", occupation: "Homemaker", mobile: "8000000002", email: "" },
+      father: {
+        name: "Suresh Verma",
+        occupation: "Shopkeeper",
+        mobile: "8000000001",
+        email: "suresh.v@gmail.com",
+      },
+      mother: {
+        name: "Sunita Verma",
+        occupation: "Homemaker",
+        mobile: "8000000002",
+        email: "",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -139,7 +186,11 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2022-03-20", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2022-03-20",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2022-03-20", status: "Verified" },
     ],
     status: "Active",
@@ -167,8 +218,18 @@ export const students = [
       permanentAddress: "33 Satellite Road, Ahmedabad 380015",
     },
     guardianInfo: {
-      father: { name: "Nilesh Patel", occupation: "CA", mobile: "7500000001", email: "nilesh.patel@gmail.com" },
-      mother: { name: "Hetal Patel", occupation: "Teacher", mobile: "7500000002", email: "hetal.patel@gmail.com" },
+      father: {
+        name: "Nilesh Patel",
+        occupation: "CA",
+        mobile: "7500000001",
+        email: "nilesh.patel@gmail.com",
+      },
+      mother: {
+        name: "Hetal Patel",
+        occupation: "Teacher",
+        mobile: "7500000002",
+        email: "hetal.patel@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -188,9 +249,17 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles", "Hepatitis B"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2024-03-15", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2024-03-15",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2024-03-15", status: "Verified" },
-      { name: "Previous Marksheet", uploadDate: "2024-03-15", status: "Verified" },
+      {
+        name: "Previous Marksheet",
+        uploadDate: "2024-03-15",
+        status: "Verified",
+      },
       { name: "Medical Records", uploadDate: "2024-03-15", status: "Verified" },
     ],
     status: "Active",
@@ -218,8 +287,18 @@ export const students = [
       permanentAddress: "56 Jubilee Hills, Hyderabad 500033",
     },
     guardianInfo: {
-      father: { name: "Krishna Reddy", occupation: "Software Engineer", mobile: "9000111222", email: "krishna.r@gmail.com" },
-      mother: { name: "Lakshmi Reddy", occupation: "Banker", mobile: "9000111223", email: "lakshmi.r@gmail.com" },
+      father: {
+        name: "Krishna Reddy",
+        occupation: "Software Engineer",
+        mobile: "9000111222",
+        email: "krishna.r@gmail.com",
+      },
+      mother: {
+        name: "Lakshmi Reddy",
+        occupation: "Banker",
+        mobile: "9000111223",
+        email: "lakshmi.r@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -239,8 +318,16 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2021-03-10", status: "Verified" },
-      { name: "Transfer Certificate", uploadDate: "2021-03-10", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2021-03-10",
+        status: "Verified",
+      },
+      {
+        name: "Transfer Certificate",
+        uploadDate: "2021-03-10",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2021-03-10", status: "Verified" },
     ],
     status: "Active",
@@ -268,8 +355,18 @@ export const students = [
       permanentAddress: "22 Anna Nagar, Chennai 600040",
     },
     guardianInfo: {
-      father: { name: "Subramaniam Iyer", occupation: "Professor", mobile: "8100200300", email: "subra.iyer@gmail.com" },
-      mother: { name: "Padma Iyer", occupation: "Homemaker", mobile: "8100200301", email: "padma.iyer@gmail.com" },
+      father: {
+        name: "Subramaniam Iyer",
+        occupation: "Professor",
+        mobile: "8100200300",
+        email: "subra.iyer@gmail.com",
+      },
+      mother: {
+        name: "Padma Iyer",
+        occupation: "Homemaker",
+        mobile: "8100200301",
+        email: "padma.iyer@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -289,7 +386,11 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles", "Hepatitis B"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2020-03-20", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2020-03-20",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2020-03-20", status: "Verified" },
     ],
     status: "Active",
@@ -317,8 +418,18 @@ export const students = [
       permanentAddress: "89 Aminabad, Lucknow 226018",
     },
     guardianInfo: {
-      father: { name: "Imran Khan", occupation: "Architect", mobile: "7700880099", email: "imran.khan@gmail.com" },
-      mother: { name: "Fatima Khan", occupation: "Lawyer", mobile: "7700880100", email: "fatima.khan@gmail.com" },
+      father: {
+        name: "Imran Khan",
+        occupation: "Architect",
+        mobile: "7700880099",
+        email: "imran.khan@gmail.com",
+      },
+      mother: {
+        name: "Fatima Khan",
+        occupation: "Lawyer",
+        mobile: "7700880100",
+        email: "fatima.khan@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -338,7 +449,11 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2025-03-01", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2025-03-01",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2025-03-01", status: "Pending" },
     ],
     status: "Active",
@@ -366,8 +481,18 @@ export const students = [
       permanentAddress: "14 MG Road, Kochi 682016",
     },
     guardianInfo: {
-      father: { name: "Mohan Nair", occupation: "Navy Officer", mobile: "9200300400", email: "mohan.nair@gmail.com" },
-      mother: { name: "Anjali Nair", occupation: "Nurse", mobile: "9200300401", email: "anjali.nair@gmail.com" },
+      father: {
+        name: "Mohan Nair",
+        occupation: "Navy Officer",
+        mobile: "9200300400",
+        email: "mohan.nair@gmail.com",
+      },
+      mother: {
+        name: "Anjali Nair",
+        occupation: "Nurse",
+        mobile: "9200300401",
+        email: "anjali.nair@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -384,10 +509,21 @@ export const students = [
       medicalConditions: "None",
       doctorName: "Dr. Menon",
       doctorContact: "9222000088",
-      vaccinations: ["BCG", "Polio", "DPT", "Measles", "Hepatitis B", "Typhoid"],
+      vaccinations: [
+        "BCG",
+        "Polio",
+        "DPT",
+        "Measles",
+        "Hepatitis B",
+        "Typhoid",
+      ],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2019-03-10", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2019-03-10",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2019-03-10", status: "Verified" },
       { name: "Medical Records", uploadDate: "2019-03-10", status: "Verified" },
     ],
@@ -416,8 +552,18 @@ export const students = [
       permanentAddress: "45 MG Road, Civil Lines, Delhi 110001",
     },
     guardianInfo: {
-      father: { name: "Rajesh Sharma", occupation: "Engineer", mobile: "9876543210", email: "rajesh.sharma@gmail.com" },
-      mother: { name: "Priya Sharma", occupation: "Teacher", mobile: "9876543211", email: "priya.sharma@gmail.com" },
+      father: {
+        name: "Rajesh Sharma",
+        occupation: "Engineer",
+        mobile: "9876543210",
+        email: "rajesh.sharma@gmail.com",
+      },
+      mother: {
+        name: "Priya Sharma",
+        occupation: "Teacher",
+        mobile: "9876543211",
+        email: "priya.sharma@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -437,7 +583,11 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2022-03-15", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2022-03-15",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2022-03-15", status: "Verified" },
     ],
     status: "Active",
@@ -465,8 +615,18 @@ export const students = [
       permanentAddress: "67 Sector 15, Noida 201301",
     },
     guardianInfo: {
-      father: { name: "Anil Gupta", occupation: "Manager", mobile: "9300400500", email: "anil.gupta@gmail.com" },
-      mother: { name: "Kavita Gupta", occupation: "Designer", mobile: "9300400501", email: "kavita.gupta@gmail.com" },
+      father: {
+        name: "Anil Gupta",
+        occupation: "Manager",
+        mobile: "9300400500",
+        email: "anil.gupta@gmail.com",
+      },
+      mother: {
+        name: "Kavita Gupta",
+        occupation: "Designer",
+        mobile: "9300400501",
+        email: "kavita.gupta@gmail.com",
+      },
       guardian: null,
     },
     academicInfo: {
@@ -486,8 +646,16 @@ export const students = [
       vaccinations: ["BCG", "Polio", "DPT", "Measles"],
     },
     documents: [
-      { name: "Birth Certificate", uploadDate: "2023-03-20", status: "Verified" },
-      { name: "Transfer Certificate", uploadDate: "2023-03-20", status: "Verified" },
+      {
+        name: "Birth Certificate",
+        uploadDate: "2023-03-20",
+        status: "Verified",
+      },
+      {
+        name: "Transfer Certificate",
+        uploadDate: "2023-03-20",
+        status: "Verified",
+      },
       { name: "Aadhar Card", uploadDate: "2023-03-20", status: "Verified" },
     ],
     status: "Transferred",
@@ -500,6 +668,9 @@ export const students = [
 ];
 
 // Helper to get students by status
-export const getStudentsByStatus = (status) => students.filter((s) => s.status === status);
-export const getStudentsBySchool = (schoolId) => students.filter((s) => s.schoolId === schoolId);
-export const getStudentsByClass = (className) => students.filter((s) => s.academicInfo.currentClass === className);
+export const getStudentsByStatus = (status) =>
+  students.filter((s) => s.status === status);
+export const getStudentsBySchool = (schoolId) =>
+  students.filter((s) => s.schoolId === schoolId);
+export const getStudentsByClass = (className) =>
+  students.filter((s) => s.academicInfo.currentClass === className);

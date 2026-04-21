@@ -2,7 +2,7 @@ import React from "react";
 import { BiCalendar, BiLogOut, BiNotification } from "react-icons/bi";
 import { NavLink, Outlet } from "react-router-dom";
 import { PiCarProfile, PiStudent, PiUserCircle } from "react-icons/pi";
-import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaChalkboardTeacher, FaNotesMedical } from "react-icons/fa";
 import {
   IoCash,
   IoNotificationsCircleOutline,
@@ -12,18 +12,43 @@ import { IoIosLogOut } from "react-icons/io";
 const StaffLayout = () => {
   const navLinks = [
     {
-      to: "",
+      to: "/staff-dashboard",
       label: "My Schedule",
       icon: <BiCalendar className="text-xl" />,
     },
-    { to: "/", label: "Students", icon: <PiStudent className="text-xl" /> },
+
+    { to: "salary", label: "Salary", icon: <IoCash className="text-xl" /> },
     {
-      to: "/",
+      to: "attendence",
       label: "Attendance",
+      icon: <BiCalendar className="text-xl" />,
+    },
+    {
+      to: "timetable",
+      label: "Timetable",
+      icon: <BiNotification className="text-xl" />,
+    },
+    // {
+    //   to: "/students",
+    //   label: "Students",
+    //   icon: <PiStudent className="text-xl" />,
+    // },
+    {
+      to: "assignments",
+      label: "Assignments",
+      icon: <FaNotesMedical className="text-xl" />,
+    },
+    {
+      to: "results",
+      label: "Results",
       icon: <FaChalkboardTeacher className="text-xl" />,
     },
-    { to: "salary", label: "Salary", icon: <IoCash className="text-xl" /> },
-    { to: "/", label: "Profile", icon: <PiUserCircle className="text-xl" /> },
+
+    {
+      to: "profile",
+      label: "Profile",
+      icon: <PiUserCircle className="text-xl" />,
+    },
   ];
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-2.5 font-medium rounded-lg transition-all duration-300 cursor-pointer group ` +
@@ -42,7 +67,11 @@ const StaffLayout = () => {
           </div>
           <nav className="flex flex-col gap-4 p-4">
             {navLinks.map((link) => (
-              <NavLink to={link.to} className={navLinkClass}>
+              <NavLink
+                to={link.to}
+                className={navLinkClass}
+                end={link.to === "/staff-dashboard"}
+              >
                 {link.icon}
                 {link.label}
               </NavLink>
@@ -83,6 +112,7 @@ const StaffLayout = () => {
               </div>
             </div>
           </header>
+
           <Outlet />
         </main>
       </div>

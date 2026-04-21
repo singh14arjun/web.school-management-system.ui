@@ -76,8 +76,10 @@ const StaffDashboard = () => {
           <p>Here's an overview of your academic workspace today.</p>
         </div>
         <div className="flex gap-4">
-          <button className="bg-slate-500 p-2 rounded">View Schedule</button>
-          <button className="bg-blue-500 p-2 rounded text-white">
+          <button className="bg-slate-500 p-2 rounded font-semibold">
+            View Schedule
+          </button>
+          <button className="bg-blue-500 p-2 rounded text-white font-semibold">
             View Attendance
           </button>
         </div>

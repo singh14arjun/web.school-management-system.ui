@@ -497,25 +497,45 @@ const Login = () => {
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       console.log("values 👉", values);
+      const res = await login(values);
 
-      // ✅ FAKE LOGIN (no API)
-      const fakeUser = {
-        name: "Test User",
-        role: "staff",
-      };
+      console.log("res 👉", res);
 
-      // ✅ STORE TOKEN (VERY IMPORTANT)
-      localStorage.setItem("token", "dummy-token");
-      localStorage.setItem("user", JSON.stringify(fakeUser));
+      const data = res?.data;
+
+      console.log("FULL RESPONSE 👉", data);
+
+      const user = data?.user;
+      const token = data?.access_token;
+
+      if (!user || !token) {
+        throw new Error("Invalid email or password");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      const isNewUser = !localStorage.getItem("schoolSetupDone");
+
+      // ✅ FIXED role check
+      const isAdmin = user?.role === "super_admin";
+
+      console.log("isAdmin 👉", isAdmin);
 
       toast.success("Login Successful!");
 
-      // ✅ NOW NAVIGATE
-      navigate("/staff-dashboard");
-
+      navigate(
+        isNewUser ? "/setup" : isAdmin ? "/dashboard" : "/select-school",
+      );
     } catch (err) {
       console.log("ERROR 👉", err);
-      toast.error("Something went wrong");
+
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Invalid email or password";
+
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }

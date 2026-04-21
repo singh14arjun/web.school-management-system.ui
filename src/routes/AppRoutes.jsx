@@ -42,13 +42,28 @@ const StudentList = lazy(() => import("../pages/students/StudentList"));
 const AddStudent = lazy(() => import("../pages/students/AddStudent"));
 const EditStudent = lazy(() => import("../pages/students/EditStudent"));
 const StudentProfile = lazy(() => import("../pages/students/StudentProfile"));
-const StudentAttendance = lazy(() => import("../pages/students/Attendance"));
-
+const StudentProfile2 = lazy(() => import("../pages/student/StudentProfile"));
+const StudentsAttendance = lazy(() => import("../pages/students/Attendance"));
+const StudentAttendance = lazy(
+  () => import("../pages/student/StudentAttendence"),
+);
+const StudentDashboard = lazy(
+  () => import("../pages/students/StudentDashboard"),
+);
+const StudentLayout = lazy(() => import("../pages/students/StudentLayout"));
+const StudentAttendence = lazy(
+  () => import("../pages/student/StudentAttendence"),
+);
+const StudentFees = lazy(() => import("../pages/student/StudentFees"));
+const StudentTimeTable = lazy(
+  () => import("../pages/student/StudentTimeTable"),
+);
 // Classes
 const ClassList = lazy(() => import("../pages/classes/ClassList"));
 const AddClass = lazy(() => import("../pages/classes/AddClass"));
 const EditClass = lazy(() => import("../pages/classes/EditClass"));
 const ClassProfile = lazy(() => import("../pages/classes/ClassProfile"));
+const StudentResult = lazy(() => import("../pages/student/StudentResult"));
 
 // Staff
 const StaffLayout = lazy(() => import("../pages/staff/Stafflayout"));
@@ -59,6 +74,11 @@ const StaffProfile = lazy(() => import("../pages/staff/StaffProfile"));
 const EditStaff = lazy(() => import("../pages/staff/EditStaff"));
 const DeleteStaff = lazy(() => import("../pages/staff/DeleteStaff"));
 const Salary = lazy(() => import("../pages/staff/Salary"));
+const TeacherProfile = lazy(() => import("../pages/staff/TeacherProfile"));
+const Assignment = lazy(() => import("../pages/staff/Assignement"));
+const Timetable = lazy(() => import("../pages/staff/Timetable"));
+const Result = lazy(() => import("../pages/staff/Result"));
+const Attendance = lazy(() => import("../pages/staff/Attendance"));
 
 // Animated loading spinner
 const Loading = () => (
@@ -278,7 +298,7 @@ const AnimatedRoutes = () => {
           path="students/attendance"
           element={
             <PageTransition>
-              <StudentAttendance />
+              <StudentsAttendance />
             </PageTransition>
           }
         />
@@ -384,10 +404,109 @@ const AnimatedRoutes = () => {
           }
         />
         <Route
+          path="profile"
+          element={
+            <PageTransition>
+              <TeacherProfile />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="timetable"
+          element={
+            <PageTransition>
+              <Timetable />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="assignments"
+          element={
+            <PageTransition>
+              <Assignment />
+            </PageTransition>
+          }
+        />
+
+        <Route
+          path="results"
+          element={
+            <PageTransition>
+              <Result />
+            </PageTransition>
+          }
+        />
+        <Route
           path="salary"
           element={
             <PageTransition>
               <Salary />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="attendence"
+          element={
+            <PageTransition>
+              <Attendance />
+            </PageTransition>
+          }
+        />
+      </Route>
+
+      <Route
+        path="/student-dashboard"
+        element={
+          <ProtectedRoute>
+            <StudentLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route
+          index
+          element={
+            <PageTransition>
+              <StudentDashboard />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="student-timetable"
+          element={
+            <PageTransition>
+              <StudentTimeTable />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="student-attendance"
+          element={
+            <PageTransition>
+              <StudentAttendance />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="student-fees"
+          element={
+            <PageTransition>
+              <StudentFees />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <PageTransition>
+              <StudentProfile2 />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="student-result"
+          element={
+            <PageTransition>
+              <StudentResult />
             </PageTransition>
           }
         />
