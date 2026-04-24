@@ -58,6 +58,8 @@ const StudentFees = lazy(() => import("../pages/student/StudentFees"));
 const StudentTimeTable = lazy(
   () => import("../pages/student/StudentTimeTable"),
 );
+
+const StudentAssignment = lazy(() => import("../pages/student/Assignment"));
 // Classes
 const ClassList = lazy(() => import("../pages/classes/ClassList"));
 const AddClass = lazy(() => import("../pages/classes/AddClass"));
@@ -79,6 +81,11 @@ const Assignment = lazy(() => import("../pages/staff/Assignement"));
 const Timetable = lazy(() => import("../pages/staff/TimeTable"));
 const Result = lazy(() => import("../pages/staff/Result"));
 const Attendance = lazy(() => import("../pages/staff/Attendance"));
+const StudentAttendanceSheet = lazy(
+  () => import("../pages/staff/StudentsAttendenceSheet"),
+);
+
+const StudentsSheet = lazy(() => import("../pages/staff/StudentsSheet"));
 
 // Animated loading spinner
 const Loading = () => (
@@ -427,6 +434,22 @@ const AnimatedRoutes = () => {
             </PageTransition>
           }
         />
+        <Route
+          path="students-sheet"
+          element={
+            <PageTransition>
+              <StudentsSheet />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="students-AttendenceSheet"
+          element={
+            <PageTransition>
+              <StudentAttendanceSheet />
+            </PageTransition>
+          }
+        />
 
         <Route
           path="results"
@@ -507,6 +530,14 @@ const AnimatedRoutes = () => {
           element={
             <PageTransition>
               <StudentResult />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="student-assignment"
+          element={
+            <PageTransition>
+              <StudentAssignment />
             </PageTransition>
           }
         />

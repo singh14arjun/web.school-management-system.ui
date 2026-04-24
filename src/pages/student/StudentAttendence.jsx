@@ -1,4 +1,8 @@
 import React from "react";
+import StudentProfile from "../students/StudentProfile";
+import { PiStudentFill } from "react-icons/pi";
+import { MdCancel, MdLeakRemove } from "react-icons/md";
+import { BiCheck } from "react-icons/bi";
 
 const StudentAttendence = () => {
   const totalAttendence = 90;
@@ -23,14 +27,27 @@ const StudentAttendence = () => {
   for (let d = 1; d <= daysInMonth; d++) {
     const dayOfWeek = new Date(year, month, d).getDay();
 
+    let border = "border-gray-200";
     let bg = "bg-gray-200";
+    let status;
+
+    const isToday =
+      d === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear();
 
     if (dayOfWeek === 0) {
-      bg = "bg-blue-500";
+      border = "border-blue-500"; // Sunday
+      bg = "bg-blue-100"; // Sunday
+      status = "Sunday";
     } else if (absentList.includes(d)) {
-      bg = "bg-red-600";
+      border = "border-red-500"; // Absent
+      bg = "bg-red-100"; // Absent
+      status = "Absent";
     } else {
-      bg = "bg-green-400";
+      border = "border-green-500";
+      bg = "bg-green-100"; // Absent
+      status = "Present";
     }
 
     const isFuture =
@@ -39,10 +56,16 @@ const StudentAttendence = () => {
       d > today.getDate();
 
     if (isFuture) {
-      bg = "bg-gray-200"; // future days
+      border = "border-gray-500";
+      bg = "bg-gray-100";
+      status = "";
     }
-
-    days.push({ day: d, bg });
+    if (isToday) {
+      border = "border-purple-500";
+      bg = "bg-purple-200";
+      status = "Today";
+    }
+    days.push({ day: d, bg, border, status });
   }
 
   const totalPresent = 25;
@@ -55,114 +78,69 @@ const StudentAttendence = () => {
   const overallPercent = (35 / totalOverall) * 100;
   return (
     <div className="flex flex-col gap-6">
-      <header className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-        <div className="bg-gray-200 p-4 rounded flex flex-col gap-2">
-          <p className="font-semibold text-2xl">OverAll Attendence</p>
-          <p className="text-4xl font-bold">{totalAttendence}%</p>
-
-          <div className="bg-gray-300 w-full h-3 rounded-2xl">
-            <div
-              style={{ width: `${totalAttendence}%` }}
-              className={`h-3 rounded-2xl ${
-                totalAttendence >= 80
-                  ? "bg-blue-600"
-                  : totalAttendence >= 60
-                    ? "bg-green-600"
-                    : totalAttendence > 35
-                      ? "bg-amber-600"
-                      : "bg-red-600"
-              }`}
-            ></div>
+      <header className="flex flex-col gap-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-blue-600 text-sm font-semibold">
+              DAILY OPERATIONS
+            </p>
+            <h1 className="text-3xl font-bold">Mark Daily Attendance</h1>
           </div>
-        </div>
-        <div className="bg-gray-200 p-4 rounded-2xl flex flex-col gap-2">
-          <p className="text-2xl font-bold">Scholarship Status</p>
 
-          {totalAttendence >= 85 ? (
-            <div className="flex items-center gap-2">
-              <div className="bg-green-600 w-3 h-3 rounded-full"></div>
-              <p className="font-bold">Maintained</p>
+          {/* <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow">
+            <button
+              onClick={() =>
+                setCurrentDate(new Date(year, month, currentDate.getDate() - 1))
+              }
+            >
+              ◀
+            </button>
+
+            <p className="font-medium">{currentDate.toDateString()}</p>
+
+            <button
+              onClick={() =>
+                setCurrentDate(new Date(year, month, currentDate.getDate() + 1))
+              }
+            >
+              ▶
+            </button>
+          </div> */}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div className="bg-gray-100 p-5 rounded-2xl flex flex-col gap-4">
+            <div className="flex gap-5">
+              <p className="text-sm text-gray-500">Class 9th</p>
+              <p className="text-sm text-gray-500">Section B</p>
             </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <div className="bg-red-600 w-3 h-3 rounded-full"></div>
-              <p className="font-semibold">Not Maintained</p>
+          </div>
+
+          <div className="flex  justify-between items-center bg-white p-5 rounded-2xl shadow border-l-4 border-blue-600">
+            <div>
+              <p className="text-gray-500">TOTAL ATTENDENCE</p>
+              <p className="text-3xl font-bold">32</p>
             </div>
-          )}
-
-          <div className="flex gap-1">
-            <p className="font-semibold text-black/50">Requirement :</p>
-            <p className="font-bold">85 %</p>
+            <PiStudentFill className="bg-blue-200 text-4xl rounded p-1 text-blue-600" />
           </div>
 
-          <p className="font-semibold text-black/50">
-            Your Attendence :
-            <span className="font-bold text-black"> {totalAttendence} %</span>
-          </p>
-        </div>
-
-        <div className="bg-gray-200 p-4 rounded-2xl flex flex-col gap-4 ">
-          <p className="text-2xl font-bold">This Month</p>
-
-          <p className="font-semibold text-black/50">
-            Total Present :{" "}
-            <span className="text-black font-bold">{totalPresent}</span>
-          </p>
-
-          <p className="font-semibold text-black/50">
-            Total Absent :{" "}
-            <span className="text-black font-bold">{totalAbsent}</span>
-          </p>
-
-          <div className="flex justify-center">
-            <div
-              className="w-22 h-22 rounded-full"
-              style={{
-                background: `conic-gradient(
-          cyan 0% ${presentPercent}%,
-          magenta ${presentPercent}% 100%
-        )`,
-              }}
-            ></div>
+          {/* 🔹 Present */}
+          <div className="flex justify-between  items-center bg-white p-5 rounded-2xl shadow border-l-4 border-green-500">
+            <div>
+              <p className="text-gray-500">TOTAL PRESENT</p>
+              <p className="text-3xl font-bold text-blue-600">28</p>
+            </div>
+            <BiCheck className="bg-green-200 text-4xl p-1 rounded text-green-600" />
           </div>
 
-          {/* Labels */}
-          <div className="flex justify-between text-sm font-semibold">
-            <span className="text-green-600">Present</span>
-            <span className="text-red-600">Absent</span>
+          {/* 🔹 Absent */}
+          <div className="flex justify-between items-center bg-white p-5 rounded-2xl shadow border-l-4 border-red-500">
+            <div>
+              <p className="text-gray-500">TOTAL ABSENT</p>
+              <p className="text-3xl font-bold text-red-600">04</p>
+            </div>
+            <MdCancel className="bg-red-200 text-4xl p-1 rounded text-red-600" />
           </div>
-
-          {/* Percentage */}
-          <p className="text-center text-sm text-black/60">
-            {presentPercent.toFixed(0)}% Attendance
-          </p>
-        </div>
-
-        <div className="bg-gray-200 p-4 rounded-2xl flex flex-col gap-4 ">
-          <p className="text-2xl font-bold">Total Attendance</p>
-
-          <p className="font-semibold text-black/50">
-            Total Present :<span className="text-black font-bold"> 35</span>
-          </p>
-
-          <p className="font-semibold text-black/50">
-            Total Absent :<span className="text-black font-bold"> 15</span>
-          </p>
-
-          <div className="w-full h-4 bg-gray-300 rounded-full overflow-hidden flex">
-            <div
-              style={{ width: `${overallPercent}%` }}
-              className="bg-blue-500 h-full"
-            ></div>
-            <div
-              style={{ width: `${100 - overallPercent}%` }}
-              className="bg-red-500 h-full"
-            ></div>
-          </div>
-
-          <p className="text-center text-sm font-semibold">
-            {overallPercent.toFixed(0)}% Overall Attendance
-          </p>
         </div>
       </header>
 
@@ -171,7 +149,10 @@ const StudentAttendence = () => {
 
         <div className="grid grid-cols-7 gap-1 text-center font-semibold mb-2 ">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div key={d} className="bg-amber-200 p-10 rounded">
+            <div
+              key={d}
+              className="bg-amber-200  rounded h-10 md:h-20 flex justify-center items-center"
+            >
               {d}
             </div>
           ))}
@@ -182,10 +163,12 @@ const StudentAttendence = () => {
             item ? (
               <div
                 key={i}
-                className={`h-10 flex items-center justify-center rounded text-black font-bold ${item.bg}  p-10 rounded`}
+                className={`h-10 md:h-20 flex flex-col items-center justify-center rounded text-black font-bold ${item.bg} border-l-8 border ${item?.border} rounded-lg`}
               >
-                {item.day}
-                {item?.status}
+                <p className="text-lg">{item.day}</p>
+                <p className="text-black/50 font-semibold text-sm">
+                  {item?.status}
+                </p>
               </div>
             ) : (
               <div key={i}></div>

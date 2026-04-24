@@ -10,9 +10,9 @@ import { ErrorMessage, Formik } from "formik";
 import React from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { FaClipboardList } from "react-icons/fa";
-// import { Pencil, Trash2, ClipboardList } from "lucide-react";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+
 const Card = ({ status, title, desc, progress, date, completed }) => {
   const percent =
     (parseInt(progress.split("/")[0]) / parseInt(progress.split("/")[1])) * 100;

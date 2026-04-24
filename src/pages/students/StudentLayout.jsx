@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { PiUserCircle } from "react-icons/pi";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 import { HiOutlineCash } from "react-icons/hi";
 import { FaBars, FaGraduationCap } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
+import { BiBook, BiBookOpen, BiLogOut } from "react-icons/bi";
+import { IoLogOut } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const StudentLayout = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navlinks = [
     {
@@ -37,6 +41,11 @@ const StudentLayout = () => {
       icon: <FaListCheck className="text-lg" />,
     },
     {
+      to: "student-assignment",
+      label: "Assignment",
+      icon: <BiBookOpen className="text-lg" />,
+    },
+    {
       to: "profile",
       label: "Profile",
       icon: <PiUserCircle className="text-lg" />,
@@ -55,6 +64,12 @@ const StudentLayout = () => {
     setIsSideBarOpen(!isSideBarOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("selectedSchool");
+    toast.success("Sign out successfully");
+    navigate("/");
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* 🔥 Sidebar */}
@@ -90,9 +105,16 @@ const StudentLayout = () => {
             </NavLink>
           ))}
         </nav>
+
+        <div
+          className="p-4 mt-auto flex justify-center py-2 items-center gap-2 rounded-lg bg-red-100 text-red-600 font-bold border-red-600 border cursor-pointer hover:bg-red-800 hover:text-white"
+          onClick={handleLogout}
+        >
+          Logout
+          <IoLogOut />
+        </div>
       </aside>
 
-      {/* 🔥 Overlay (mobile only) */}
       {isSideBarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-40 lg:hidden"
@@ -100,10 +122,8 @@ const StudentLayout = () => {
         />
       )}
 
-      {/* 🔥 Main Content */}
       <div className="flex-1 flex flex-col bg-gray-50">
         <header className="flex items-center justify-between px-6 py-3 bg-white shadow-sm">
-          {/* ✅ FIXED FUNCTION NAME */}
           <FaBars
             className="flex lg:hidden cursor-pointer"
             onClick={handleMenuOpen}

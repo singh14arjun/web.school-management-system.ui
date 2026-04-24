@@ -15,7 +15,7 @@ const StudentProfile = () => {
 
   return (
     <div>
-      <section className="p-4 flex flex-row justify-between gap-6">
+      <section className="p-4 flex flex-col md:flex-row justify-between gap-6">
         <div className="flex flex-col md:flex-row gap-6">
           <div>
             <img
@@ -33,7 +33,7 @@ const StudentProfile = () => {
               <p className="bg-green-600 font-bold  rounded-full w-3 h-3 animate-pulse"></p>
               <p className="bg-red-600 font-bold  rounded-full w-3 h-3 animate-pulse"></p>
             </p>
-            <div className="flex  gap-2 mt-2">
+            <div className="flex flex-col gap-2 mt-2">
               <p className="bg-blue-400 font-bold px-2 rounded-2xl">
                 Class: 10th Grade
               </p>

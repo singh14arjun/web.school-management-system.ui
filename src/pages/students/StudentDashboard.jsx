@@ -24,22 +24,22 @@ import {
 const StudentDashboard = () => {
   const attendanceData = [
     { month: "Jan", attendance: 78 },
-    { month: "Feb", attendance: 98 },
+    { month: "Feb", attendance: 88 },
     { month: "Mar", attendance: 80 },
     { month: "April", attendance: 68 },
-    { month: "May", attendance: 92 },
-    { month: "June", attendance: 52 },
-    { month: "July", attendance: 82 },
-    { month: "Aug", attendance: 72 },
-    { month: "Sep", attendance: 92 },
-    { month: "Oct", attendance: 96 },
-    { month: "Nov", attendance: 90 },
-    { month: "Dec", attendance: 75 },
+    { month: "May", attendance: 0 },
+    { month: "June", attendance: 0 },
+    { month: "July", attendance: 0 },
+    { month: "Aug", attendance: 0 },
+    { month: "Sep", attendance: 0 },
+    { month: "Oct", attendance: 0 },
+    { month: "Nov", attendance: 0 },
+    { month: "Dec", attendance: 0 },
   ];
 
   const currentMonth = new Date().toLocaleString("en-US", {
     month: "short",
-  }); // e.g. "Apr"
+  });
 
   const maxAttendance = Math.max(
     ...attendanceData.map((item) => item.attendance),

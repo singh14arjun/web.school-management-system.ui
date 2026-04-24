@@ -1,6 +1,6 @@
 import React from "react";
 import { BiCalendar, BiLogOut, BiNotification } from "react-icons/bi";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { PiCarProfile, PiStudent, PiUserCircle } from "react-icons/pi";
 import { FaChalkboardTeacher, FaNotesMedical } from "react-icons/fa";
 import {
@@ -9,7 +9,18 @@ import {
   IoSettings,
 } from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
+import { toast } from "react-toastify";
 const StaffLayout = () => {
+  const isClassTeacher = true;
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("selectedSchool");
+    toast.success("Sign out successfully");
+    navigate("/");
+  };
+
   const navLinks = [
     {
       to: "/staff-dashboard",
@@ -28,11 +39,18 @@ const StaffLayout = () => {
       label: "Timetable",
       icon: <BiNotification className="text-xl" />,
     },
-    // {
-    //   to: "/students",
-    //   label: "Students",
-    //   icon: <PiStudent className="text-xl" />,
-    // },
+    isClassTeacher
+      ? {
+          to: "students-AttendenceSheet",
+          label: "Students Attendance",
+          icon: <PiStudent className="text-xl" />,
+        }
+      : {
+          to: "students-sheet",
+          label: "Students",
+          icon: <PiStudent className="text-xl" />,
+        },
+
     {
       to: "assignments",
       label: "Assignments",
@@ -79,7 +97,10 @@ const StaffLayout = () => {
           </nav>
 
           <div className="p-4 mt-auto">
-            <button className="flex  gap-2 justify-center items-center border p-2 rounded border-red-500 bg-red-500/10 text-white hover:bg-red-500/20 w-full transition-all duration-300    cursor-pointer">
+            <button
+              className="flex  gap-2 justify-center items-center border p-2 rounded border-red-500 bg-red-500/10 text-white hover:bg-red-500/20 w-full transition-all duration-300 cursor-pointer"
+              onClick={handleLogout}
+            >
               Logout
               <IoIosLogOut className="text-xl" />
             </button>

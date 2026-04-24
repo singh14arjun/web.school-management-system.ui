@@ -88,6 +88,22 @@ const StudentTimeTable = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const today = new Date();
+
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const currentDayName = days[today.getDay()];
+
+  console.log(currentDayName);
+
   return (
     <div className="p-2 md:p-4">
       <header>
@@ -104,7 +120,7 @@ const StudentTimeTable = () => {
           <TableContainer className="rounded-xl shadow-md">
             <Table>
               <TableHead>
-                <TableRow className="bg-blue-600 ">
+                <TableRow className={`bg-blue-600`}>
                   <TableCell>
                     <b className="text-white font-bold">Time / Days</b>
                   </TableCell>
